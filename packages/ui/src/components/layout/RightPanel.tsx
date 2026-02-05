@@ -27,6 +27,7 @@ import { useState } from "react";
 
 export function RightPanel() {
     const { activeRightPanelTab, setActiveRightPanelTab, setRightPanelOpen } = useUIStore();
+    const activeTab = activeRightPanelTab || "ai"; // Fallback to 'ai' if undefined
     const [input, setInput] = useState("");
 
     const tabs = [
@@ -44,11 +45,11 @@ export function RightPanel() {
                         <Tooltip key={tab.id}>
                             <TooltipTrigger asChild>
                                 <Button
-                                    variant={activeRightPanelTab === tab.id ? "secondary" : "ghost"}
+                                    variant={activeTab === tab.id ? "secondary" : "ghost"}
                                     size="icon"
                                     className={cn(
                                         "h-8 w-8 rounded-lg transition-all",
-                                        activeRightPanelTab === tab.id
+                                        activeTab === tab.id
                                             ? "bg-primary/10 text-primary shadow-sm"
                                             : "text-muted-foreground hover:text-foreground"
                                     )}
@@ -86,9 +87,9 @@ export function RightPanel() {
             </div>
 
             {/* Content Area */}
-            <div className="flex-1 flex flex-col min-w-0">
+            <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Header */}
-                <div className="flex items-center justify-between px-4 h-12 border-b bg-muted/5">
+                <div className="flex items-center justify-between px-4 h-12 border-b bg-muted/5 shrink-0">
                     <div className="flex items-center gap-2">
                         <span className="font-semibold text-sm">AI Assistant</span>
                         <span className="px-1.5 py-0.5 rounded-full bg-primary/10 text-[10px] font-medium text-primary">Beta</span>
@@ -99,16 +100,16 @@ export function RightPanel() {
                 </div>
 
                 {/* Chat Area */}
-                {activeRightPanelTab === "ai" && (
-                    <>
-                        <ScrollArea className="flex-1 p-4">
-                            <div className="space-y-6">
+                {activeTab === "ai" && (
+                    <div className="flex-1 flex flex-col overflow-hidden">
+                        <ScrollArea className="flex-1">
+                            <div className="p-4 space-y-6">
                                 {/* Welcome Message */}
                                 <div className="flex gap-3">
-                                    <Avatar className="h-8 w-8 mt-0.5 border bg-primary/5">
+                                    <Avatar className="h-8 w-8 mt-0.5 border bg-primary/5 shrink-0">
                                         <AvatarFallback className="bg-transparent"><Bot className="h-4 w-4 text-primary" /></AvatarFallback>
                                     </Avatar>
-                                    <div className="space-y-1.5 flex-1">
+                                    <div className="space-y-1.5 flex-1 min-w-0">
                                         <div className="flex items-center gap-2">
                                             <span className="text-xs font-semibold">OpenDBM AI</span>
                                             <span className="text-[10px] text-muted-foreground">Just now</span>
@@ -126,10 +127,10 @@ export function RightPanel() {
 
                                 {/* User Mock Message */}
                                 <div className="flex gap-3 flex-row-reverse">
-                                    <Avatar className="h-8 w-8 mt-0.5 border bg-muted">
+                                    <Avatar className="h-8 w-8 mt-0.5 border bg-muted shrink-0">
                                         <AvatarFallback><User className="h-4 w-4 text-muted-foreground" /></AvatarFallback>
                                     </Avatar>
-                                    <div className="space-y-1.5 flex-1">
+                                    <div className="space-y-1.5 flex-1 min-w-0">
                                         <div className="flex items-center gap-2 justify-end">
                                             <span className="text-[10px] text-muted-foreground">2m ago</span>
                                             <span className="text-xs font-semibold">You</span>
@@ -142,10 +143,10 @@ export function RightPanel() {
 
                                 {/* AI Response Mock */}
                                 <div className="flex gap-3">
-                                    <Avatar className="h-8 w-8 mt-0.5 border bg-primary/5">
+                                    <Avatar className="h-8 w-8 mt-0.5 border bg-primary/5 shrink-0">
                                         <AvatarFallback className="bg-transparent"><Bot className="h-4 w-4 text-primary" /></AvatarFallback>
                                     </Avatar>
-                                    <div className="space-y-1.5 flex-1">
+                                    <div className="space-y-1.5 flex-1 min-w-0">
                                         <div className="flex items-center gap-2">
                                             <span className="text-xs font-semibold">OpenDBM AI</span>
                                             <span className="text-[10px] text-muted-foreground">1m ago</span>
@@ -177,7 +178,7 @@ export function RightPanel() {
                             </div>
                         </ScrollArea>
 
-                        <div className="p-4 pt-2 border-t bg-background">
+                        <div className="p-4 pt-2 border-t bg-background shrink-0">
                             <div className="relative rounded-xl border bg-muted/20 focus-within:ring-1 focus-within:ring-primary/20 focus-within:border-primary/50 transition-all">
                                 <Textarea
                                     value={input}
@@ -195,10 +196,10 @@ export function RightPanel() {
                                 <span className="text-[10px] text-muted-foreground/50">AI can make mistakes. Verify important info.</span>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )}
 
-                {activeRightPanelTab === "history" && (
+                {activeTab === "history" && (
                     <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground p-8 text-center space-y-2">
                         <History className="h-10 w-10 opacity-20" />
                         <p className="text-sm font-medium">No chat history</p>
