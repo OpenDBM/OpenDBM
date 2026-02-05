@@ -2,10 +2,9 @@ import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/stores/editorStore";
 import { useQueryStore } from "@/stores/queryStore";
 import { useConnectionStore } from "@/stores/connectionStore";
-import { useUIStore } from "@/stores/uiStore";
 import { SqlEditor } from "@/components/editor/SqlEditor";
 import { QueryResultPanel } from "@/components/editor/QueryResult";
-import { X, Play, Sparkles } from "lucide-react";
+import { X, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -19,7 +18,6 @@ export function MainPanel({ className }: MainPanelProps) {
   const { tabs, activeTabId, setActiveTab, removeTab, updateTabContent } = useEditorStore();
   const { activeConnectionId } = useConnectionStore();
   const { results, isExecuting, executeQuery } = useQueryStore();
-  const { isRightPanelOpen, toggleRightPanel } = useUIStore();
 
   const activeTab = tabs.find((t) => t.id === activeTabId);
   const activeResult = activeTabId ? results[activeTabId] : null;
@@ -35,17 +33,6 @@ export function MainPanel({ className }: MainPanelProps) {
       <div className={cn("flex flex-1 flex-col bg-background", className)}>
         <div className="flex h-12 items-center justify-between bg-muted/5 px-4">
           <SidebarTrigger className="-ml-1 mr-2" />
-          <div className="flex items-center gap-2">
-            <Button
-              variant={isRightPanelOpen ? "secondary" : "ghost"}
-              size="icon"
-              className="h-7 w-7 text-muted-foreground hover:text-foreground"
-              onClick={toggleRightPanel}
-              title="Toggle AI Assistant"
-            >
-              <Sparkles className="h-4 w-4" />
-            </Button>
-          </div>
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="text-center">
@@ -115,16 +102,6 @@ export function MainPanel({ className }: MainPanelProps) {
           >
             <Play className={cn("mr-1.5 h-3 w-3 fill-current", isCurrentlyExecuting && "animate-pulse")} />
             {isCurrentlyExecuting ? "EXECUTING" : "RUN"}
-          </Button>
-
-          <Button
-            variant={isRightPanelOpen ? "secondary" : "ghost"}
-            size="icon"
-            className="h-7 w-7 text-muted-foreground hover:text-foreground"
-            onClick={toggleRightPanel}
-            title="Toggle AI Assistant"
-          >
-            <Sparkles className="h-4 w-4" />
           </Button>
         </div>
       </div>

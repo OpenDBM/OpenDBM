@@ -15,8 +15,6 @@ export * from "./stores/uiStore";
 // Components - Layout
 export * from "./components/layout/Sidebar";
 export * from "./components/layout/MainPanel";
-export * from "./components/layout/RightPanel";
-export * from "./components/layout/StatusBar";
 
 // Components - UI
 export * from "./components/ui/accordion";
