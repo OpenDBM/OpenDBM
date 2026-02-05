@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Go backend binaries
+src-tauri/bin/server
+src-tauri/bin/server.exe
+
+# Backend build artifacts
+backend/server
+backend/*.exe

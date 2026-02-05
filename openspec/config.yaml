@@ -1,25 +1,26 @@
 schema: spec-driven
 
 context: |
-  Tech: Tauri 2 + React 19 + TypeScript (strict) + Vite
-  UI: Tailwind CSS 4 + shadcn/ui style
-  Components: src/components/ui/* (shadcn), use cn() from @/lib/utils for className merging
-  Rust: Commands in lib.rs with #[tauri::command], register in generate_handler![]
-  Conventions: @/* aliases, no CSS prefix, lucide-react icons
-  Language Requirement: All documentation, specifications, plans, and reasoning MUST be written in **Simplified Chinese (简体中文)**. Do NOT use English for explanations unless it is a specific technical term that is untranslatable. Code Exception: Variable names, function names, and file paths must remain in **English**.
-  
+  Stack: Tauri 2 + React 19 + TypeScript + Go (Unified Backend)
+  UI: Tailwind CSS 4 + shadcn/ui (New York style), premium aesthetics (micro-animations, OKLCH colors)
+  React 19: Use React.ComponentRef (avoid ElementRef), strict typing
+  Conventions: @/* aliases, cn() for merging, cva() for variants, Lucide icons
+  Back-end: Go + GORM (Raw SQL preferred), REST/WebSocket for Tauri communication
+  Local: All technical plans (implementation_plan.md) and reasoning MUST be in Simplified Chinese. English for code only.
+
 rules:
   specs:
-    - Use Given/When/Then format for behavior scenarios
-    - Specify Tauri command signatures (Rust fn + TS invoke type)
-    - Include error handling paths for Rust commands
+    - Describe behavior using Given/When/Then scenarios
+    - Define API contracts (Endpoint, Method, Request/Response schemas)
+    - Include error handling and validation logic
   
-  tasks:
-    - Tag as [frontend], [backend], or [infra]
-    - Break into ≤2hr chunks
-    - Note Tauri-specific steps (update invoke_handler, rebuild)
-  
-  proposals:
-    - Separate frontend/backend changes with horizontal rules
-    - Flag breaking changes to Rust command signatures
-    - Consider both dev (vite) and production (tauri build) impact
+  implementation_plan:
+    - Group by component (Backend/Go vs Frontend/React)
+    - Separated by horizontal rules (---)
+    - Use render_diffs() for existing file modifications
+    - Use [NEW] and [DELETE] for file lifecycle changes
+    
+  walkthrough:
+    - Include ![Summary](path/to/recording.webp) for UI changes
+    - List technical debt addressed (e.g. deprecation fixes)
+    - Explicitly state build verification results (e.g. tsc status)
