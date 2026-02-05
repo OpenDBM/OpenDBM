@@ -1,5 +1,19 @@
 import type { DatabaseType } from "./database";
 
+export type SshAuthMethod = "password" | "key";
+
+export interface SshConfig {
+  id: string;
+  name: string;
+  host: string;
+  port: number;
+  username: string;
+  authMethod: SshAuthMethod;
+  password?: string;
+  keyPath?: string;
+  passphrase?: string;
+}
+
 export interface ConnectionConfig {
   id?: string;
   name: string;
@@ -9,7 +23,22 @@ export interface ConnectionConfig {
   username: string;
   password: string;
   database: string;
-  ssl?: boolean;
+  groupId?: string;
+
+  // Reusable SSH Tunnel
+  useSsh?: boolean;
+  sshTunnelId?: string;
+
+  // SSL
+  useSsl?: boolean;
+  sslCaPath?: string;
+  sslCertPath?: string;
+  sslKeyPath?: string;
+  sslRejectUnauthorized?: boolean;
+
+  // Advanced
+  connectTimeout?: number;
+  maxPoolSize?: number;
 }
 
 export interface Connection extends ConnectionConfig {
@@ -29,3 +58,8 @@ export const DEFAULT_PORTS: Record<DatabaseType, number> = {
   oracle: 1521,
   sqlserver: 1433,
 };
+
+export interface Group {
+  id: string;
+  name: string;
+}

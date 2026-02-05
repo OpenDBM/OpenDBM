@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import type { Connection, ConnectionConfig } from "../types/connection";
+import type { Connection, ConnectionConfig, Group } from "../types/connection";
 import { api } from "../api/client";
 
 interface ConnectionState {
   connections: Connection[];
+  groups: Group[];
   activeConnectionId: string | null;
   isLoading: boolean;
   error: string | null;
@@ -17,10 +18,31 @@ interface ConnectionState {
   disconnectConnection: (id: string) => Promise<void>;
   refreshConnections: () => Promise<void>;
   clearError: () => void;
+
+  addGroup: (name: string) => void;
+  removeGroup: (id: string) => void;
 }
+
+const loadGroups = (): Group[] => {
+  try {
+    const stored = localStorage.getItem("opendbm_groups");
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveGroups = (groups: Group[]) => {
+  try {
+    localStorage.setItem("opendbm_groups", JSON.stringify(groups));
+  } catch (err) {
+    console.error("Failed to save groups", err);
+  }
+};
 
 export const useConnectionStore = create<ConnectionState>((set) => ({
   connections: [],
+  groups: loadGroups(),
   activeConnectionId: null,
   isLoading: false,
   error: null,
@@ -96,4 +118,23 @@ export const useConnectionStore = create<ConnectionState>((set) => ({
   },
 
   clearError: () => set({ error: null }),
+
+  addGroup: (name) => {
+    set((state) => {
+      const newGroup = { id: crypto.randomUUID(), name };
+      const newGroups = [...state.groups, newGroup];
+      saveGroups(newGroups);
+      return { groups: newGroups };
+    });
+  },
+
+  removeGroup: (id) => {
+    set((state) => {
+      const newGroups = state.groups.filter((g) => g.id !== id);
+      saveGroups(newGroups);
+      // Also potentially update connections to remove groupId?
+      // For now, let's just keep connections in "ungrouped" if group disappears.
+      return { groups: newGroups };
+    });
+  },
 }));

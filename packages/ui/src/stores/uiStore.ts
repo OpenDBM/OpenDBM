@@ -6,6 +6,13 @@ export type Theme = "light" | "dark" | "system";
 interface UIState {
     theme: Theme;
     setTheme: (theme: Theme) => void;
+
+    // Right Panel State
+    isRightPanelOpen: boolean;
+    activeRightPanelTab: string;
+    toggleRightPanel: () => void;
+    setRightPanelOpen: (open: boolean) => void;
+    setActiveRightPanelTab: (tab: string) => void;
 }
 
 export const useUIStore = create<UIState>()(
@@ -13,6 +20,12 @@ export const useUIStore = create<UIState>()(
         (set) => ({
             theme: "system",
             setTheme: (theme) => set({ theme }),
+
+            isRightPanelOpen: false,
+            activeRightPanelTab: "ai",
+            toggleRightPanel: () => set((state) => ({ isRightPanelOpen: !state.isRightPanelOpen })),
+            setRightPanelOpen: (open) => set({ isRightPanelOpen: open }),
+            setActiveRightPanelTab: (tab) => set({ activeRightPanelTab: tab }),
         }),
         {
             name: "opendbm-ui-storage",

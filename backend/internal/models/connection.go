@@ -13,6 +13,7 @@ type ConnectionConfig struct {
 	Password string `json:"password"`
 	Database string `json:"database"`
 	SSL      bool   `json:"ssl,omitempty"`
+	GroupID  string `json:"groupId,omitempty"`
 }
 
 // Connection represents an active database connection

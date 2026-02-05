@@ -44,15 +44,15 @@ export function NewConnection({ open, onOpenChange }: NewConnectionProps) {
       onOpenChange(val);
       if (!val) setTestResult(null);
     }}>
-      <DialogContent className="sm:max-w-[480px]">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold tracking-tight">Add New Connection</DialogTitle>
-          <DialogDescription className="text-xs">
-            Configure a new database connection. You can test it before saving.
+      <DialogContent className="sm:max-w-[560px] p-0 overflow-hidden gap-0 border-none shadow-2xl">
+        <DialogHeader className="px-6 pt-6 pb-4 bg-muted/5">
+          <DialogTitle className="text-xl font-bold tracking-tight text-foreground/90">New Connection</DialogTitle>
+          <DialogDescription className="text-xs text-muted-foreground/60">
+            Configure secure access to your database instance.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="py-4">
+        <div className="px-6 py-2 overflow-y-auto max-h-[70vh]">
           <ConnectionForm
             onSubmit={handleSubmit}
             onTest={handleTest}
@@ -61,22 +61,24 @@ export function NewConnection({ open, onOpenChange }: NewConnectionProps) {
         </div>
 
         {testResult && (
-          <div
-            className={cn(
-              "flex items-start gap-3 rounded-lg border p-3 text-[13px] animate-in fade-in slide-in-from-top-2",
-              testResult.success
-                ? "bg-green-500/5 text-green-700 border-green-500/20"
-                : "bg-destructive/5 text-destructive border-destructive/20"
-            )}
-          >
-            {testResult.success ? (
-              <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
-            ) : (
-              <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" />
-            )}
-            <div className="space-y-1">
-              <span className="font-semibold">{testResult.success ? "Success" : "Connection Failed"}</span>
-              <p className="text-xs opacity-90 leading-relaxed font-mono break-all">{testResult.message}</p>
+          <div className="px-6 pb-6 pt-2">
+            <div
+              className={cn(
+                "flex items-start gap-3 rounded-xl border p-4 text-[13px] animate-in fade-in slide-in-from-top-2",
+                testResult.success
+                  ? "bg-green-500/5 text-green-700 border-green-500/20"
+                  : "bg-destructive/5 text-destructive border-destructive/20 shadow-sm"
+              )}
+            >
+              {testResult.success ? (
+                <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0 text-green-600" />
+              ) : (
+                <AlertCircle className="h-4 w-4 mt-0.5 shrink-0 text-destructive" />
+              )}
+              <div className="space-y-1">
+                <span className="font-bold tracking-tight">{testResult.success ? "CONNECTIVITY SUCCESS" : "CONNECTION FAILED"}</span>
+                <p className="text-[11px] opacity-80 leading-relaxed font-mono break-all whitespace-pre-wrap">{testResult.message}</p>
+              </div>
             </div>
           </div>
         )}
